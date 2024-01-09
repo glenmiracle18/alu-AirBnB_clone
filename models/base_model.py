@@ -4,6 +4,7 @@
 import uuid
 from datetime import datetime
 
+
 class BaseModel:
     """
     Base class for all models
@@ -16,6 +17,7 @@ class BaseModel:
     # formatting the string
     def __str__(self):
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
+
     # save for main model
     def save(self):
         """
@@ -23,10 +25,10 @@ class BaseModel:
         """
         self.updated_at = datetime.now()
 
-    #converts the object to a dictionary
+    # converts the object to a dictionary
     def to_dict(self):
         """
-        Returns a dictionary containing all keys/values of __dict__ of the instance
+        Returns a dictionary containing
         """
         obj_dict = self.__dict__.copy()
         obj_dict['__class__'] = self.__class__.__name__
