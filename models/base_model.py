@@ -3,6 +3,7 @@
 """Defines the BaseModel class."""
 from uuid import uuid4
 from datetime import datetime
+from models import storage
 
 
 
@@ -26,11 +27,14 @@ class BaseModel:
                     self.__dict__[k] = datetime.strptime(v, tform)
                 else:
                     self.__dict__[k] = v
+        storage.new(self)
 
 
     def save(self):
         """Update updated_at with the current datetime."""
         self.updated_at = datetime.today()
+        storage.new(self)
+        storage.save()
 
     def to_dict(self):
         """Return the dictionary of the BaseModel instance.
