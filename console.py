@@ -3,7 +3,6 @@
 
 import cmd
 import re
-import sys
 from os import system
 from models.base_model import BaseModel
 from models.user import User
@@ -138,6 +137,7 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_quit(self, arg):
+        """for quiting"""
         return True
     # short cut for quit command.
     do_q = do_quit
