@@ -59,7 +59,9 @@ class FileStorage:
 
                     # By providing the dict value stored in json_obj[key] as
                     # kwargs, genrate an object with the same attributes
-                    FileStorage.__objects[key] = eval(key.split(".")[0](**v))
+                    class_name = key.split(".")[0]
+                    class_ = getattr(models, class_name)
+                    FileStorage.__objects[key] = class_(**v)
         except:
             pass
 
