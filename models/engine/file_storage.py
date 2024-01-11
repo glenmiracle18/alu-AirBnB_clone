@@ -55,7 +55,7 @@ class FileStorage:
         try:
             with open(FileStorage.__file_path, 'r') as json_file:
                 json_obj = json.load(json_file)
-                for key, value in json_obj.items():
+                for key, v in json_obj.items():
 
                     # By providing the dict value stored in json_obj[key] as
                     # kwargs, genrate an object with the same attributes
