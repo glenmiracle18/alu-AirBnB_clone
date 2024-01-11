@@ -20,7 +20,9 @@ class BaseModel:
             for k, v in kwargs.items():
                 if k == "created_at" or k == "updated_at":
                     setattr(self, k, datetime.fromisoformat(v))
-                if k != "__class__":
+                if k == "__class__":
+                    continue
+                else:
                     setattr(self, k, v)
         else:
             self.id = str(uuid4())
