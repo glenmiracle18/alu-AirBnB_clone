@@ -21,7 +21,7 @@ class FileStorage:
     __objects = {}
 
     def all(self, cls=None):
-        """Returns a list of all objects if cls is None. If cls is provided, return all objects of that type.
+        """Returns a list of all objects if cls is None.
         """
         return FileStorage.__objects
 
@@ -58,10 +58,10 @@ class FileStorage:
                 for key, v in json_obj.items():
 
                     # By providing the dict value stored in json_obj[key] as
-                    # kwargs, genrate an object with the same attributes
-                    FileStorage.__objects[key] = eval(key.split(".")[0](**v))
-        except:
-            pass
+                    # kwargs, generate an object with the same attributes
+                    FileStorage.__objects[key] = eval(key.split(".")[0])(**v)
+        except Exception as e:
+            print("Error reloading objects from JSON file:", str(e))
 
     def delete(self, obj=None):
         """Delete an object from the __objects"""
@@ -71,7 +71,7 @@ class FileStorage:
                     del FileStorage.__objects[key]
                     print("Deleted: {}".format(key))
                     self.save()
-                    
+
     def close(self):
         """closing instance"""
         self.reload()
