@@ -39,11 +39,13 @@ class BaseModel:
         Includes the key/value pair __class__ representing
         the class name of the object.
         """
-        rdict = self.__dict__.copy()
-        rdict["created_at"] = self.created_at.isoformat()
-        rdict["updated_at"] = self.updated_at.isoformat()
-        rdict["__class__"] = self.__class__.__name__
-        return rdict
+        obj_dict = {}
+        for k, v in self.__dict__.items():
+            if k == "created_at" or k == "updated_at":
+                v = v.isoformat()
+            obj_dict[k] = v
+        obj_dict["__class__"] = self.__class__.__name__
+        return obj_dict
 
     def __str__(self):
         """Return the print/str representation of the BaseModel instance."""
