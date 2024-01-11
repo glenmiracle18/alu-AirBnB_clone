@@ -16,23 +16,21 @@ class BaseModel:
             *args (any): Unused.
             **kwargs (dict): Key/value pairs of attributes.
         """
-        tform = "%Y-%m-%dT%H:%M:%S.%f"
-        self.id = str(uuid4())
-        self.created_at = datetime.today()
-        self.updated_at = datetime.today()
-        if len(kwargs) != 0:
+        if kwargs:
             for k, v in kwargs.items():
                 if k == "created_at" or k == "updated_at":
-                    self.__dict__[k] = datetime.strptime(v, tform)
-                else:
-                    self.__dict__[k] = v
-        storage.new(self)
-
+                    setattr(self, k, datetime.fromisoformat(v))
+                if k != "__class__":
+                    setattr(self, k, v)
+        else:
+            self.id = str(uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
+            storage.new(self)
 
     def save(self):
         """Update updated_at with the current datetime."""
-        self.updated_at = datetime.today()
-        storage.new(self)
+        self.updated_at = datetime.now()
         storage.save()
 
     def to_dict(self):

@@ -3,7 +3,6 @@
 JSON file to instances"""
 
 import json
-import os
 
 
 class FileStorage:
@@ -11,7 +10,7 @@ class FileStorage:
 
     # private class attributes
     # __file_path is the path to the JSON file to store all objects.
-    __file_path = 'storage.json'
+    __file_path = 'file.json'
 
     # __objects is a dictionary that stores all objects by <class name>.id
     # ex: to store a BaseModel object with id=12121212, the key will be
@@ -24,17 +23,7 @@ class FileStorage:
     def all(self, cls=None):
         """Returns a list of all objects if cls is None. If cls is provided, return all objects of that type.
         """
-
-        if cls is not None:
-
-            obj = {}
-            print(FileStorage.__objects.items())
-            for key, val in FileStorage.__objects.items():
-                if cls.__name__ in key:
-                    obj[key] = val
-            return obj
-        else:
-            return self.__objects
+        return FileStorage.__objects
 
     # sets in __objects the obj with key <obj class name>.id
     def new(self, obj):
@@ -55,21 +44,24 @@ class FileStorage:
         for key in self.__objects.keys():
             json_obj[key] = self.__objects[key].to_dict()
 
-        with open(self.__file_path, 'w') as json_file:
+        with open(FileStorage.__file_path, 'w') as json_file:
             json.dump(json_obj, json_file)
 
     def reload(self):
+        from models.base_model import BaseModel
         """Deserializes the JSON file to __objects (only if the JSON file"""
         """(path: __file_path) exists ; otherwise, do nothing."""
-        if os.path.exists(self.__file_path):
-            with open(self.__file_path, 'r') as json_file:
+
+        try:
+            with open(FileStorage.__file_path, 'r') as json_file:
                 json_obj = json.load(json_file)
-                for key in json_obj.keys():
+                for key, value in json_obj.items():
 
                     # By providing the dict value stored in json_obj[key] as
                     # kwargs, genrate an object with the same attributes
-                    self.__objects[key] = eval(
-                        json_obj[key]['__class__'])(**json_obj[key])
+                    FileStorage.__objects[key] = eval(key.split(".")[0](**v))
+        except:
+            pass
 
     def delete(self, obj=None):
         """Delete an object from the __objects"""
