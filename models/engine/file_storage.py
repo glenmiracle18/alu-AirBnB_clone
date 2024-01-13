@@ -48,20 +48,26 @@ class FileStorage:
             json.dump(json_obj, json_file)
 
     def reload(self):
+        """
+        reloads all the objs saved in file
+        """
         from models.base_model import BaseModel
-        """Deserializes the JSON file to __objects (only if the JSON file"""
-        """(path: __file_path) exists ; otherwise, do nothing."""
-
+        from models.user import User
+        from models.place import Place
+        from models.amenity import Amenity
+        from models.city import City
+        from models.state import State
+        from models.review import Review
+        myclasses = {"BaseModel": BaseModel, "User": User, "Place": Place,
+                     "Amenity": Amenity, "City": City, "State": State,
+                     "Review": Review}
         try:
-            with open(FileStorage.__file_path, 'r') as json_file:
-                json_obj = json.load(json_file)
-                for key, v in json_obj.items():
-
-                    # By providing the dict value stored in json_obj[key] as
-                    # kwargs, generate an object with the same attributes
-                    FileStorage.__objects[key] = eval(key.split(".")[0])(**v)
-        except Exception as e:
-            print("Error reloading objects from JSON file:", str(e))
+            with open(FileStorage.__file_path, "r") as f:
+                my_dict = json.load(f)
+                for k, v in my_dict.items():
+                    FileStorage.__objects[k] = myclasses[v["__class__"]](**v)
+        except Exception:
+            pass
 
     def delete(self, obj=None):
         """Delete an object from the __objects"""
