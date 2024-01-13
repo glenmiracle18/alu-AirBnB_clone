@@ -7,7 +7,7 @@ import json
 
 class FileStorage():
     """
-    doc
+    a class to store objects in a local file
     """
     __file_path = "file.json"
     __objects = {}
