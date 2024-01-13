@@ -18,8 +18,7 @@ class HBNBCommand(cmd.Cmd):
     doc
     """
     prompt = "(hbnb) "
-    classes = ("BaseModel", "User", "Place", "City",
-               "Amenity", "Review", "State")
+    classes = ["BaseModel", "User", "Place", "City", "Amenity", "Review", "State"]
 
     def do_quit(self, arg):
         """
