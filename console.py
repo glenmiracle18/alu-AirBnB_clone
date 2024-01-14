@@ -113,29 +113,24 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, arg):
         """
-        show a particular object
-        by passing as parameter the class
-        and the object id
-        ex:
-        show BaseModel 78377hd99yhd
+        Prints the string representation of an instance based on the class name and id.
         """
-        args = arg.split()
-        if len(args) >= 2:
-            if args[0] not in HBNBCommand.classes:
-                print("** class doesn't exist **")
-            else:
-                key = args[0] + "." + args[1]
-                if key in storage.all():
-                    print(storage.all().get(key))
-                else:
-                    print("** no instance found **")
-        elif len(args) == 1:
-            if args[0] not in HBNBCommand.classes:
-                print("** class doesn't exist **")
-            else:
-                print("** instance id missing **")
-        elif len(args) == 0:
+        args = arg.split('.')
+        if len(args) != 2:
             print("** class name missing **")
+            return
+        class_name = args[0]
+        id = args[1].strip('()').strip('""')
+        if class_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+        elif id == "":
+            print("** instance id missing **")
+        else:
+            key = class_name + "." + id
+            if key in storage.all():
+                print(storage.all()[key])
+            else:
+                print("** no instance found **")
 
     def do_destroy(self, arg):
         """
