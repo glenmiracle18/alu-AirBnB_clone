@@ -18,7 +18,15 @@ class HBNBCommand(cmd.Cmd):
     doc
     """
     prompt = "(hbnb) "
-    classes = ["BaseModel", "User", "Place", "City", "Amenity", "Review", "State"]
+    classes = [
+            "BaseModel",
+            "User",
+            "Place",
+            "City",
+            "Amenity",
+            "Review",
+            "State"
+            ]
 
     def do_quit(self, arg):
         """
@@ -113,7 +121,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, arg):
         """
-        Prints the string representation of an instance based on the class name and id.
+        Prints the string representation of an
+        instance based on the class name and id.
         """
         args = arg.split('.')
         if len(args) != 2:
