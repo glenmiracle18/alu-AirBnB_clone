@@ -1,1 +1,2 @@
-This is the README.md for web_static directory
+Documentation of the web_static clone of 
+airbnb clone
